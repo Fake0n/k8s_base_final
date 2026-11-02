@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: librespeed
+  name: librespeed
+  namespace: final
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: librespeed
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: librespeed
+    spec:
+      containers:
+        - name: librespeed
+          image: registry.gitlab.rebrainme.study/streams/devops/kubernetes-base-resources/images/speedtest:5.3
+          envFrom:
+            - configMapRef:
+                name: librespeed-env
+      imagePullSecrets:
+        - name: registrysecret
+
+
+

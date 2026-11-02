@@ -1,44 +1,17 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-  labels:
-    app: db
-spec:
-  ports:
-    - port: 3306
-  selector:
-    app: db
-    tier: mysql
-  clusterIP: None
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-  labels:
-    app: db
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysql
   labels:
     app: db
   namespace: db
 spec:
+  serviceName: mysql-headless
+  replicas: 1
   selector:
     matchLabels:
       app: db
       tier: mysql
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -52,17 +25,24 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-pass
-              key: password
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_DATABASE
-          value: wordpress
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-configmap
+              key: MYSQL_DATABASE
         - name: MYSQL_USER
-          value: wordpress
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-configmap
+              key: MYSQL_USER
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-pass
-              key: password
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+
         ports:
         - containerPort: 3306
           name: mysql
@@ -73,4 +53,3 @@ spec:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: mysql-pv-claim
-
