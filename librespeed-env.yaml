@@ -14,3 +14,8 @@ data:
   DB_TYPE: mysql
   ENABLE_ID_OBFUSCATION: "true"
   TELEMETRY: "true"
+  DB_TYPE: "mysql"
+  DB_USERNAME: "speedtest"
+  DB_HOSTNAME: ""
+  DB_NAME: "speedtest"
+  DB_PORT: "3306"
