@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: librespeed-service
+    app.kubernetes.io/instance: librespeed
+  name: librespeed-service
+  namespace: final
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8008
+  selector:
+    app.kubernetes.io/instance: librespeed
+  type: ClusterIP
+status:
+  loadBalancer: {}

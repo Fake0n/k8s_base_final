@@ -21,8 +21,18 @@ spec:
           envFrom:
             - configMapRef:
                 name: librespeed-env
+            - secretRef:
+                name: librespeed-secret
+          volumeMounts:
+            - name: librespeed-servers
+              mountPath: /servers.json
+              subPath: servers.json
+      volumes:
+        - name: librespeed-servers
+          configMap:
+            name: librespeed-servers
       imagePullSecrets:
         - name: registrysecret
-
+    
 
 

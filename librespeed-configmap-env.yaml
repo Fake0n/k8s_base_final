@@ -11,11 +11,10 @@ data:
   SERVER_LIST_URL: ""
   WEBPORT: "8008"
   REDACT_IP_ADDRESSES: "false"
-  DB_TYPE: mysql
   ENABLE_ID_OBFUSCATION: "true"
   TELEMETRY: "true"
   DB_TYPE: "mysql"
   DB_USERNAME: "speedtest"
-  DB_HOSTNAME: ""
+  DB_HOSTNAME: mysql.db
   DB_NAME: "speedtest"
   DB_PORT: "3306"
