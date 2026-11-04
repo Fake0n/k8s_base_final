@@ -42,14 +42,20 @@ spec:
             secretKeyRef:
               name: mysql-secret
               key: MYSQL_PASSWORD
-
         ports:
         - containerPort: 3306
           name: mysql
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+        - name: mysql-configmap-init-db
+          mountPath: /docker-entrypoint-initdb.d/telemetry_mysql.sql
+          subPath: mysql-init-db.sql
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: mysql-pv-claim
+      - name: mysql-configmap-init-db
+        configMap:
+          name: mysql-configmap-init-db
+
