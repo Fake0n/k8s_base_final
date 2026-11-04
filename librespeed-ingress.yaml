@@ -3,9 +3,13 @@ kind: Ingress
 metadata:
   name: librespeed-ingress
   namespace: final
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
   labels:
     app.kubernetes.io/instance: librespeed
 spec:
+  ingressClassName: nginx
   rules:
   - host: localhost
     http:
@@ -16,5 +20,6 @@ spec:
             port:
               number: 80
         path: /
+        pathType: Prefix
 status:
   loadBalancer: {}
